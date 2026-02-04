@@ -1,0 +1,70 @@
+VAR TableData = 
+SUMMARIZE(
+ALLSELECTED('t_sem_resource_v2-资源表'),
+'t_sem_resource_v2-资源表'[渠道产品],
+"加微数", [加微数],
+"新用户", [新用户],
+"老用户", [老用户])
+VAR RowCount = COUNTROWS(TableData)
+VAR RowHeight = 30
+VAR HeaderHeight = 40
+VAR TotalHeight = RowCount * RowHeight * 2 + HeaderHeight
+VAR AnimationDuration = 30
+// 列宽定义（根据需要调整百分比）
+VAR ColumnStyles = 
+"<col style='width:25%'>
+ <col style='width:20%'>
+ <col style='width:20%'>
+ <col style='width:20%'>"
+VAR HtmlContent = 
+"<div style='width:100%;height:" & TotalHeight & "px;overflow:hidden;position:relative;'>
+    <!-- 固定表头 -->
+    <table style='position:absolute;top:0;left:0;width:100%;background:#ffccb6;z-index:2;border-collapse:collapse;table-layout:fixed;'>
+        " & ColumnStyles & "
+        <tr>
+            <!-- 修改1：所有标题居中 -->
+            <th style='padding:6px;border:1px solid #ddd;text-align:center;color:#666666'>渠道产品</th>
+            <th style='padding:6px;border:1px solid #ddd;text-align:center;color:#666666'>加微数</th>
+            <th style='padding:6px;border:1px solid #ddd;text-align:center;color:#666666'>新用户</th>
+            <th style='padding:6px;border:1px solid #ddd;text-align:center;color:#666666'>老用户</th>
+        </tr>
+    </table>     
+    <!-- 滚动内容区 -->
+    <div style='position:absolute;top:" & HeaderHeight & "px;left:0;width:100%;height:" & (TotalHeight - HeaderHeight) & "px;overflow:hidden;'>
+        <table style='width:100%;border-collapse:collapse;animation: scroll " & AnimationDuration & "s linear infinite;table-layout:fixed;background-color:#fbf2d7;color:#666666;'>
+            " & ColumnStyles & "
+            " & CONCATENATEX(TableData, 
+"<tr>
+                    <!-- 修改2：所有内容值居中 -->
+                    <td style='padding:6px;border:1px solid #ddd;overflow:hidden;text-overflow:ellipsis;text-align:center;'>" &[渠道产品] & "</td>
+                    <td style='padding:6px;border:1px solid #ddd;text-align:center;'>" & FORMAT([加微数], "#,##0") & "</td>
+                    <td style='padding:6px;border:1px solid #ddd;text-align:center;'>" & FORMAT([新用户], "#,##0") & "</td>
+                     <td style='padding:6px;border:1px solid #ddd;text-align:center;'>" & FORMAT([老用户],"#,##0") & "</td>
+                </tr>", "") &
+"<!-- 复制内容实现无缝滚动 -->
+            " & CONCATENATEX(TableData, 
+"<tr>
+                    <td style='padding:6px;border:1px solid #ddd;overflow:hidden;text-overflow:ellipsis;text-align:center;'>" & [渠道产品]& "</td>
+                    <td style='padding:6px;border:1px solid #ddd;text-align:center;'>" & FORMAT([加微数], "#,##0") & "</td>
+                    <td style='padding:6px;border:1px solid #ddd;text-align:center;'>" & FORMAT([新用户], "#,##0") & "</td>
+                     <td style='padding:6px;border:1px solid #ddd;text-align:center;'>" & FORMAT([老用户], "#,##0") & "</td>
+                </tr>", "") &
+"</table>
+    </div>
+</div>"
+RETURN 
+"<svg xmlns='http://www.w3.org/2000/svg' width='400' height='550' viewBox='0 0 400 550'>
+    <style>
+        @keyframes scroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+        foreignObject {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <foreignObject x='0' y='0' width='400' height='550'>
+        " & HtmlContent & "
+    </foreignObject>
+</svg>"
