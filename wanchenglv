@@ -1,0 +1,47 @@
+SvgProgressStatus = 
+// 修改为自己的目标完成率度量值
+VAR vMeasure = [目标完成率]
+// 图像大小
+VAR Width = 64
+VAR Height = 64
+// 颜色设置
+VAR RedColor = "#f44336"
+VAR YellowColor = "#fedb00"
+VAR GreenColor = "#60ba29"
+VAR GreyColor = "#E0E0E0" 
+// 图形变量
+VAR CenterX = 20
+VAR CenterY = 20
+VAR Radius = 15
+VAR StrokeWidth = 4
+VAR Percentage = [目标完成率]
+-- MAX ( ROUNDDOWN( vMeasure, 2 ), 0 ) 
+// 颜色逻辑设置
+VAR StatusColor =
+SWITCH (
+TRUE (),
+Percentage >= 1, GreenColor,  // >= 100% Green
+Percentage >= 0.5, YellowColor, // >= 70% Yellow
+RedColor // < 70% Red
+    )    
+VAR FontFamily = "Segoe UI"
+VAR FontSize = 10
+VAR Circumference =
+2 * PI () * Radius
+VAR DashArray =
+FORMAT ( Circumference * Percentage, "0.##" ) & " "
+        & FORMAT ( Circumference, "0.##" )
+VAR DisplayText =
+FORMAT ( Percentage * 100, "0" ) & "%25"
+VAR ProgressSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='" & Width & "' height='" & Height & "' viewBox='0 0 40 40'%3E" & "%3Ccircle cx='" & CenterX & "' cy='" & CenterY & "' r='" & Radius & "' fill='none' stroke='" & GreyColor & "' stroke-width='" & StrokeWidth & "'/%3E" & "%3Ccircle cx='" & CenterX & "' cy='" & CenterY & "' r='" & Radius & "' fill='none' stroke='" & StatusColor & "' stroke-width='" & StrokeWidth & "' stroke-dasharray='" & DashArray & "' transform='rotate(-90 " & CenterX & " " & CenterY & ")'/%3E" & "%3Ctext x='" & CenterX & "' y='" & CenterY & "' text-anchor='middle' dominant-baseline='middle' font-family='" & FontFamily & "' font-size='" & FontSize & "'%3E" & DisplayText & "%3C/text%3E" & "%3C/svg%3E"
+VAR CheckPath =
+"M"
+        & FORMAT ( CenterX - 5, "0" ) & " "
+        & FORMAT ( CenterY, "0" ) & " L"
+        & FORMAT ( CenterX - 1, "0" ) & " "
+        & FORMAT ( CenterY + 4, "0" ) & " L"
+        & FORMAT ( CenterX + 5, "0" ) & " "
+        & FORMAT ( CenterY - 4, "0" )
+VAR CompleteSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='" & Width & "' height='" & Height & "' viewBox='0 0 40 40'%3E" & "%3Ccircle cx='" & CenterX & "' cy='" & CenterY & "' r='" & Radius & "' fill='" & GreenColor & "' stroke='none'/%3E" & "%3Cpath d='" & CheckPath & "' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E" & "%3C/svg%3E"
+RETURN
+IF ( vMeasure >= 1, CompleteSvg, ProgressSvg )
