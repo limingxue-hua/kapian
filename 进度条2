@@ -1,0 +1,36 @@
+进度条= 
+// █ 第二部分：进度条显示参数
+VAR PERCENTAGEFILL =
+[目标完成率] * 100      // 获取当前项目的进度百分比（0-100）
+VAR BarColour = "#60a52d"                // 进度条颜色（支持CSS颜色名称/HEX/RGB）
+// █ 第三部分：SVG生成逻辑
+RETURN
+IF(
+HASONEVALUE('司龄分布'[org_name_3]),      // 确保当前为单个项目上下文
+// 构建SVG图像数据（注意：所有字符串拼接使用单引号）
+"data:image/svg+xml;utf8," &
+"<svg " &         // 隐藏排序值在desc属性
+"width='100' height='30' " &          // SVG画布尺寸
+"viewBox='0 0 100 30' " &             // 可视区域坐标系定义
+"xmlns='http://www.w3.org/2000/svg'>" & // SVG命名空间声明
+// 背景轨道（灰色底衬）
+"<rect x='0' y='15' " &               // Y轴位置15（底部对齐）
+"width='100' height='10' " &          // 尺寸定义
+"fill='#D0D0D0' rx='2' ry='2'/>" &    // 圆角半径2像素
+// 进度填充条
+"<rect x='0' y='15' " &
+"width='" & PERCENTAGEFILL & "' " &   // 动态宽度（百分比值）
+"height='10' " &
+"fill='" & BarColour & "' " &         // 填充颜色
+"rx='2' ry='2'/>" &                   // 保持与背景相同的圆角
+// 进度百分比文本
+"<text x='0' y='14' " &               // 文本定位点（左对齐）
+"font-family='Segoe UI' " &
+"font-size='14' " &
+"font-weight='650' " &
+"fill='#252423'>" &                     // 文本颜色
+FORMAT(PERCENTAGEFILL/100, "0%") &     // 格式化百分比显示
+"</text>" &
+"</svg>",                             // 关闭SVG标签
+BLANK()  // 非单个项目上下文时返回空白
+)
