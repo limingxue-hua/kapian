@@ -1,0 +1,63 @@
+icon业绩完成率异常 = 
+SWITCH (
+    TRUE (),
+    '计算组'[03业绩完成率] >= 1,
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-circle-check-filled' width='48' height='48' viewBox='0 0 24 24' stroke-width='1' stroke='LimeGreen' fill='none' stroke-linecap='round' stroke-linejoin='round'>
+<style>
+    @keyframes wujunmin {
+      0% {
+        transform: scale(1); 
+      }
+      50% {
+        transform: scale(0.8);
+      } 
+    }
+    path {
+      animation: wujunmin 1s infinite;
+      transform-origin: right;
+    }
+</style>
+  <path stroke='none' d='M0 0h24v24H0z' fill='none'/>
+  <path d='M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z' stroke-width='0' fill='LimeGreen' />
+</svg>",
+    '计算组'[03业绩完成率] >= 0.8
+        && '计算组'[03业绩完成率] < 1,
+        "data:image/svg+xml;utf8,<svg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'>
+<style>
+    @keyframes wujunmin {
+      0% {
+        transform: scale(1); 
+      }
+      50% {
+        transform: scale(0.8);
+      } 
+    }
+    path {
+      animation: wujunmin 1s infinite;
+      transform-origin: right;
+    }
+</style>
+<path fill-rule='evenodd' clip-rule='evenodd' d='M4 24C4 12.9543 12.9543 4 24 4C35.0457 4 44 12.9543 44 24C44 35.0457 35.0457 44 24 44C12.9543 44 4 35.0457 4 24ZM26 13C26 11.8954 25.1046 11 24 11C22.8954 11 22 11.8954 22 13L22 27C22 28.1046 22.8954 29 24 29C25.1046 29 26 28.1046 26 27L26 13ZM24 33C25.1046 33 26 33.8954 26 35C26 36.1046 25.1046 37 24 37C22.8954 37 22 36.1046 22 35C22 33.8954 22.8954 33 24 33Z' fill='Gold'/>
+</svg>
+   ",
+    '计算组'[03业绩完成率] < 0.8,
+        "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-alert-circle-filled' width='48' height='48' viewBox='0 0 24 24' stroke-width='2' stroke='Red' fill='none' stroke-linecap='round' stroke-linejoin='round'>
+<style>
+    @keyframes wujunmin {
+      0% {
+        transform: scale(1); 
+      }
+      50% {
+        transform: scale(0.8);
+      } 
+    }
+    path {
+      animation: wujunmin 1s infinite;
+      transform-origin: right;
+    }
+</style>
+  <path stroke='none' d='M0 0h24v24H0z' fill='none'/>
+  <path d='M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-4.99 11.66l-.127 .007a1 1 0 0 0 0 1.986l.117 .007l.127 -.007a1 1 0 0 0 0 -1.986l-.117 -.007zm-.01 -8a1 1 0 0 0 -.993 .883l-.007 .117v4l.007 .117a1 1 0 0 0 1.986 0l.007 -.117v-4l-.007 -.117a1 1 0 0 0 -.993 -.883z' stroke-width='0' fill='red' />
+</svg>
+"
+)
